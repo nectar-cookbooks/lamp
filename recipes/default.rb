@@ -31,6 +31,11 @@
 include_recipe "apache2::default"
 include_recipe "apache2::mod_php5"
 include_recipe "apache2::mod_ssl"
+include_recipe "apache2::logrotate"
+
+apache_site "default" do
+  enable true
+end
 
 
 
