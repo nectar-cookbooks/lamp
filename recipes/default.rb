@@ -27,13 +27,13 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-include_recipe "lamp::base"
+include_recipe 'lamp::base'
 
-apache_site "default" do
+apache_site 'default' do
   enable true
 end
 
-cookbook_file "/var/www/html/index.html" do
-  source "dummy_index.html"
-  only_if "[ -d /var/www/html -a -z `ls /var/www/html` ]"
+cookbook_file '/var/www/html/index.html' do
+  source 'dummy_index.html'
+  only_if '[ -d /var/www/html -a -z "`ls /var/www/html`" ]'
 end
