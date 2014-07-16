@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: lamp
-# Recipe:: default
+# Recipe:: base
 #
 # Copyright (c) 2014, The University of Queensland
 # All rights reserved.
@@ -27,13 +27,9 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-include_recipe "lamp::base"
+#include_recipe "mysql::default"
+include_recipe "apache2::default"
+include_recipe "apache2::mod_php5"
+include_recipe "apache2::mod_ssl"
+include_recipe "apache2::logrotate"
 
-apache_site "default" do
-  enable true
-end
-
-cookbook_file "/var/www/html/index.html" do
-  source "dummy_index.html"
-  only_if "[ -d /var/www/html -a -z `ls /var/www/html` ]"
-end
