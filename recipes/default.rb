@@ -27,7 +27,10 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-include_recipe "mysql::default"
-include_recipe "apache2_default"
-include_recipe "php::default"
+#include_recipe "mysql::default"
+include_recipe "apache2::default"
+include_recipe "apache2::mod_php5"
+include_recipe "apache2::mod_ssl"
+
+
 
