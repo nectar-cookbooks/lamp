@@ -1,2 +1,2 @@
-node.default['lamp']['pmwiki']['version'] = 'latest'
+node.default['lamp']['pmwiki']['version'] = 'pmwiki-latest'
 

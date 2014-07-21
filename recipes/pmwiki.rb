@@ -39,12 +39,14 @@ package 'unzip' do
   action :install
 end
 
-version = node['lamp']['pmwiki']['version'] || 'pmwiki-latest'
+version = node['lamp']['pmwiki']['version'] 
 zip_path = "/opt/pmwiki/#{version}.zip"
 
 directory '/opt/pmwiki' do
   recursive true
 end
+
+http://pmwiki.org/pub/pmwiki/pmwiki-latest.zip
 
 remote_file zip_path do
   source "http://www.pmwiki.org/pub/pmwiki/#{version}.zip"
