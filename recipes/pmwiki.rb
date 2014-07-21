@@ -57,7 +57,7 @@ directory pmwiki_dir do
 end
 
 # Figure out the real 
-ruby_block do
+ruby_block 'extract pmwiki version' do
   block do
     raise "Can't find the ZIP file" unless ::File.exists?(zip_path)
     cmd = Mixlib::Shellout.new("unzip -Z -1 #{zip_path} | head -n 1")
@@ -67,6 +67,7 @@ ruby_block do
     raise "real_version is #{real_version}"
     node.override['lamp']['pmwiki']['real_version'] = real_version
   end
+  notifies :run, 'unzip[pmwiki]', :immediate
 end
 
 bash "unzip pmwiki" do
@@ -74,10 +75,11 @@ bash "unzip pmwiki" do
   user node['apache']['user']
   cwd pmwiki_dir
   action :nothing
+  notifies :run, "link[#{pmwiki_dir}/pmwiki]", :immediate
 end
 
 link "#{pmwiki_dir}/pmwiki" do
-  to "#{pmwiki_dir}/#{node['lamp']['pmwiki']['real_version']}"
+  to lazy { "#{pmwiki_dir}/#{node['lamp']['pmwiki']['real_version']}" }
   owner node['apache']['user']
   action :nothing
 end
