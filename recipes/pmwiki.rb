@@ -83,7 +83,7 @@ bash "unzip pmwiki" do
   user node['apache']['user']
   cwd pmwiki_dir
   action :nothing
-  notifies :run, "link[#{pmwiki_dir}/pmwiki]", :immediate
+  notifies :create, "link[#{pmwiki_dir}/pmwiki]", :immediate
 end
 
 link "#{pmwiki_dir}/pmwiki" do
