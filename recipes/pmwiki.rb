@@ -29,6 +29,8 @@
 
 include_recipe 'lamp::base'
 
+include Chef::Mixin::Shellout
+
 # In the first instance, just drop pmwiki into "a location accessible
 # by the webserver" ... like the installation instructions say.  Maybe
 # we ought to explicitly drop it into the CGI bin directory.
@@ -60,10 +62,9 @@ end
 ruby_block 'extract pmwiki version' do
   block do
     raise "Can't find the ZIP file" unless ::File.exists?(zip_path)
-    cmd = Mixlib::Shellout.new("unzip -Z -1 #{zip_path} | head -n 1")
-    cmd.run_command
-    cmd.error!
-    real_version = %r{^[^/]+}.match(cmd.stdout)[0]
+    p = shell_out("unzip -Z -1 #{zip_path} | head -n 1")
+    p.error!
+    real_version = %r{^[^/]+}.match(p.stdout)[0]
     raise "real_version is #{real_version}"
     node.override['lamp']['pmwiki']['real_version'] = real_version
   end
