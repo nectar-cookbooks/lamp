@@ -46,8 +46,6 @@ directory '/opt/pmwiki' do
   recursive true
 end
 
-http://pmwiki.org/pub/pmwiki/pmwiki-latest.zip
-
 remote_file zip_path do
   source "http://www.pmwiki.org/pub/pmwiki/#{version}.zip"
   action :create_if_missing 
