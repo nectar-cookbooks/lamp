@@ -46,9 +46,17 @@ directory '/opt/pmwiki' do
   recursive true
 end
 
-remote_file zip_path do
-  source "http://pmwiki.org/pub/pmwiki/#{version}.zip"
-  action :create_if_missing 
+# For some reason 'remote_file' gives a redirection loop
+if false then
+  remote_file zip_path do
+    source "http://pmwiki.org/pub/pmwiki/#{version}.zip"
+    action :create_if_missing 
+  end
+else 
+  bash "download #{zip_path}" do
+    command "wget -O #{zip_path} http://pmwiki.org/pub/pmwiki/#{version}.zip"
+    not_if { ::File.exists?(zip_path) }
+  end
 end
 
 # (Only necessary if #{pmwiki_dir} is a non-standard place ...)
