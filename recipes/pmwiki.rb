@@ -29,8 +29,6 @@
 
 include_recipe 'lamp::base'
 
-extend 'Chef::Mixin::ShellOut'
-
 # In the first instance, just drop pmwiki into "a location accessible
 # by the webserver" ... like the installation instructions say.  Maybe
 # we ought to explicitly drop it into the CGI bin directory.
@@ -61,6 +59,8 @@ end
 # Figure out the real 
 ruby_block 'extract pmwiki version' do
   block do
+    Chef::Resource::RubyBlock.send(:include, Chef::Mixin::ShellOut)
+
     raise "Can't find the ZIP file" unless ::File.exists?(zip_path)
     p = shell_out!("unzip -Z -1 #{zip_path} | head -n 1")
     real_version = %r{^[^/]+}.match(p.stdout)[0]
