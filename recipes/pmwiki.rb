@@ -29,21 +29,58 @@
 
 include_recipe 'lamp::base'
 
-package unzip do
+# In the first instance, just drop pmwiki into "a location accessible
+# by the webserver" ... like the installation instructions say.  Maybe
+# we ought to explicitly drop it into the CGI bin directory.
+
+pmwiki_dir = node['apache']['docroot_dir']
+
+package 'unzip' do
   action :install
 end
 
-version = node['lamp']['pmwiki']['version']
+version = node['lamp']['pmwiki']['version'] || 'pmwiki-latest'
+zip_path = "/opt/pmwiki/#{version}.zip"
 
-directory "/opt/pmwiki" do
+directory '/opt/pmwiki' do
   recursive true
 end
 
-remote_file "/opt/pmwiki/pmwiki-#{version}.zip" do
-  source "http://www.pmwiki.org/pub/pmwiki/pmwiki-#{version}.zip"
+remote_file zip_path do
+  source "http://www.pmwiki.org/pub/pmwiki/#{version}.zip"
   action :create_if_missing 
 end
 
+# (Only necessary if #{pmwiki_dir} is a non-standard place ...)
+directory pmwiki_dir do
+  owner node['apache']['user']
+end
+
+# Figure out the real 
+ruby_block do
+  block do
+    raise "Can't find the ZIP file" unless ::File.exists?(zip_path)
+    cmd = Mixlib::Shellout.new("unzip -Z -1 #{zip_path} | head -n 1")
+    cmd.run_command
+    cmd.error!
+    real_version = %r{^[^/]+}.match(cmd.stdout)[0]
+    raise "real_version is #{real_version}"
+    node.override['lamp']['pmwiki']['real_version'] = real_version
+  end
+end
+
+bash "unzip pmwiki" do
+  code "unzip #{zip_path}"
+  user node['apache']['user']
+  cwd pmwiki_dir
+  action :nothing
+end
+
+link "#{pmwiki_dir}/pmwiki" do
+  to "#{pmwiki_dir}/#{node['lamp']['pmwiki']['real_version']}"
+  owner node['apache']['user']
+  action :nothing
+end
 
 
 apache_site 'default' do
