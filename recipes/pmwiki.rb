@@ -60,8 +60,12 @@ end
 ruby_block 'extract pmwiki version' do
   block do
     Chef::Resource::RubyBlock.send(:include, Chef::Mixin::ShellOut)
+    
+    version = node['lamp']['pmwiki']['version'] 
+    zip_path = "/opt/pmwiki/#{version}.zip"
 
     raise "Can't find the ZIP file" unless ::File.exists?(zip_path)
+    
     p = shell_out!("unzip -Z -1 #{zip_path} | head -n 1")
     Chef::Log.debug("p.stdout is #{p.stdout}")
     real_version = %r{^[^/]+}.match(p.stdout)[0]
