@@ -35,12 +35,14 @@ include_recipe 'lamp::base'
 
 pmwiki_dir = node['apache']['docroot_dir']
 
+version = node['lamp']['pmwiki']['version'] 
+zip_path = "/opt/pmwiki/#{version}.zip"
+site = node['lamp']['pmwiki']['site'] || 'default'
+update = node['lamp']['pmwiki']['update']
+
 package 'unzip' do
   action :install
 end
-
-version = node['lamp']['pmwiki']['version'] 
-zip_path = "/opt/pmwiki/#{version}.zip"
 
 directory '/opt/pmwiki' do
   recursive true
@@ -64,7 +66,7 @@ directory pmwiki_dir do
   owner node['apache']['user']
 end
 
-# Figure out the real 
+# Figure out the real version
 ruby_block 'extract pmwiki version' do
   block do
     Chef::Resource::RubyBlock.send(:include, Chef::Mixin::ShellOut)
@@ -76,25 +78,22 @@ ruby_block 'extract pmwiki version' do
     node.override['lamp']['pmwiki']['real_version'] = real_version
   end
   notifies :run, 'bash[unzip pmwiki]', :immediate
-  notifies :create, "link[#{pmwiki_dir}/pmwiki]", :immediate
 end
 
 bash "unzip pmwiki" do
-  code "unzip #{zip_path}"
+  code lazy { <<-EOF
+    cd #{pmwiki_dir}
+    unzip #{zip_path}
+    cp -a #{node['lamp']['pmwiki']['real_version']} pmwiki
+EOF
+  }
   user node['apache']['user']
-  cwd pmwiki_dir
   action :nothing
-  not_if { ::File.exists?("#{pmwiki_dir}/#{node['lamp']['pmwiki']['real_version']}") }
+  only_if {
+    ! ::File.exists?("#{pmwiki_dir}/pmwiki") || update
+  }
 end
 
-link "#{pmwiki_dir}/pmwiki" do
-  to lazy { "#{pmwiki_dir}/#{node['lamp']['pmwiki']['real_version']}" }
-  owner node['apache']['user']
-  action :nothing
-end
-
-
-apache_site 'default' do
+apache_site site do
   enable true
 end
-
