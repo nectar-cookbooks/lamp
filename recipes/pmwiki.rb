@@ -54,7 +54,7 @@ if false then
   end
 else 
   bash "download #{zip_path}" do
-    command "wget -O #{zip_path} http://pmwiki.org/pub/pmwiki/#{version}.zip"
+    code "wget -O #{zip_path} http://pmwiki.org/pub/pmwiki/#{version}.zip"
     not_if { ::File.exists?(zip_path) }
   end
 end
