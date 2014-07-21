@@ -84,6 +84,7 @@ bash "unzip pmwiki" do
   cwd pmwiki_dir
   action :nothing
   notifies :create, "link[#{pmwiki_dir}/pmwiki]", :immediate
+  not_if { ::File.exists?("#{pmwiki_dir}/#{node['lamp']['pmwiki']['real_version']}") }
 end
 
 link "#{pmwiki_dir}/pmwiki" do
