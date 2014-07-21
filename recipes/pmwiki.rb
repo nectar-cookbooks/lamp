@@ -67,7 +67,7 @@ ruby_block 'extract pmwiki version' do
     raise "real_version is #{real_version}"
     node.override['lamp']['pmwiki']['real_version'] = real_version
   end
-  notifies :run, 'unzip[pmwiki]', :immediate
+  notifies :run, 'bash[unzip pmwiki]', :immediate
 end
 
 bash "unzip pmwiki" do
