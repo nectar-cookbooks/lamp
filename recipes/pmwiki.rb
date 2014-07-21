@@ -47,7 +47,7 @@ directory '/opt/pmwiki' do
 end
 
 remote_file zip_path do
-  source "http://www.pmwiki.org/pub/pmwiki/#{version}.zip"
+  source "http://pmwiki.org/pub/pmwiki/#{version}.zip"
   action :create_if_missing 
 end
 
