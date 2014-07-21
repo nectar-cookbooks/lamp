@@ -65,7 +65,7 @@ ruby_block 'extract pmwiki version' do
     zip_path = "/opt/pmwiki/#{version}.zip"
 
     raise "Can't find the ZIP file" unless ::File.exists?(zip_path)
-    
+    Chef::Log.debug("unzip -Z -1 #{zip_path} | head -n 1")
     p = shell_out!("unzip -Z -1 #{zip_path} | head -n 1")
     Chef::Log.debug("p.stdout is #{p.stdout}")
     real_version = %r{^[^/]+}.match(p.stdout)[0]
