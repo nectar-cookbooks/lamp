@@ -31,7 +31,7 @@ include_recipe 'lamp::base'
 
 require 'chef/mixin/shell_out'
 require 'chef/mixin/language'
-include Chef::Mixin::Shellout
+include Chef::Mixin::ShellOut
 
 # In the first instance, just drop pmwiki into "a location accessible
 # by the webserver" ... like the installation instructions say.  Maybe
