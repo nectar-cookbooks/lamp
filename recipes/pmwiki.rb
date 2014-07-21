@@ -76,6 +76,7 @@ ruby_block 'extract pmwiki version' do
     node.override['lamp']['pmwiki']['real_version'] = real_version
   end
   notifies :run, 'bash[unzip pmwiki]', :immediate
+  notifies :create, "link[#{pmwiki_dir}/pmwiki]", :immediate
 end
 
 bash "unzip pmwiki" do
@@ -83,7 +84,6 @@ bash "unzip pmwiki" do
   user node['apache']['user']
   cwd pmwiki_dir
   action :nothing
-  notifies :create, "link[#{pmwiki_dir}/pmwiki]", :immediate
   not_if { ::File.exists?("#{pmwiki_dir}/#{node['lamp']['pmwiki']['real_version']}") }
 end
 
