@@ -34,64 +34,80 @@ include_recipe 'lamp::base'
 # we ought to explicitly drop it into the CGI bin directory.
 
 pmwiki_dir = node['apache']['docroot_dir']
+pmwiki = "#{pmwiki_dir}/pmwiki"
 
 version = node['lamp']['pmwiki']['version'] 
 zip_path = "/opt/pmwiki/#{version}.zip"
 site = node['lamp']['pmwiki']['site'] || 'default'
-update = node['lamp']['pmwiki']['update']
+action = node['lamp']['pmwiki']['action']
 
-package 'unzip' do
-  action :install
+case action 
+when 'install', 'upgrade'
+else
+  raise "Unknown action #{action}"
 end
 
-directory '/opt/pmwiki' do
-  recursive true
-end
-
-# For some reason 'remote_file' gives a redirection loop
-if false then
-  remote_file zip_path do
-    source "http://pmwiki.org/pub/pmwiki/#{version}.zip"
-    action :create_if_missing 
+if action == 'install' && ::File.exists?(pmwiki) then
+  log "PMWiki already installed as #{pmwiki}" do
+    level :info
   end
-else 
-  bash "download #{zip_path}" do
-    code "wget -O #{zip_path} http://pmwiki.org/pub/pmwiki/#{version}.zip"
-    not_if { ::File.exists?(zip_path) }
+else
+  package 'unzip' do
+    action :install
   end
-end
-
-# (Only necessary if #{pmwiki_dir} is a non-standard place ...)
-directory pmwiki_dir do
-  owner node['apache']['user']
-end
-
-# Figure out the real version
-ruby_block 'extract pmwiki version' do
-  block do
-    Chef::Resource::RubyBlock.send(:include, Chef::Mixin::ShellOut)
-    version = node['lamp']['pmwiki']['version'] 
-    zip_path = "/opt/pmwiki/#{version}.zip"
-    raise "Can't find the ZIP file" unless ::File.exists?(zip_path)
-    p = shell_out!("unzip -Z -1 #{zip_path} | head -n 1")
-    real_version = %r{^[^/]+}.match(p.stdout)[0]
-    node.override['lamp']['pmwiki']['real_version'] = real_version
+  
+  directory '/opt/pmwiki' do
+    recursive true
   end
-  notifies :run, 'bash[unzip pmwiki]', :immediate
-end
-
-bash "unzip pmwiki" do
-  code lazy { <<-EOF
+  
+  # For some reason 'remote_file' gives a redirection loop
+  if false then
+    remote_file zip_path do
+      source "http://pmwiki.org/pub/pmwiki/#{version}.zip"
+      action :create_if_missing 
+    end
+  else 
+    bash "download #{zip_path}" do
+      code "wget -O #{zip_path} http://pmwiki.org/pub/pmwiki/#{version}.zip"
+      not_if { ::File.exists?(zip_path) }
+    end
+  end
+  
+  # (Only necessary if #{pmwiki_dir} is a non-standard place ...)
+  directory pmwiki_dir do
+    owner node['apache']['user']
+  end
+  
+  # Figure out the real version
+  ruby_block 'extract pmwiki version' do
+    block do
+      Chef::Resource::RubyBlock.send(:include, Chef::Mixin::ShellOut)
+      version = node['lamp']['pmwiki']['version'] 
+      zip_path = "/opt/pmwiki/#{version}.zip"
+      raise "Can't find the ZIP file" unless ::File.exists?(zip_path)
+      p = shell_out!("unzip -Z -1 #{zip_path} | head -n 1")
+      real_version = %r{^[^/]+}.match(p.stdout)[0]
+      node.override['lamp']['pmwiki']['real_version'] = real_version
+    end
+    notifies :run, "bash[#{action} pmwiki]", :immediate
+  end
+  
+  bash "#{action} pmwiki" do
+    code lazy { <<-EOF
     cd #{pmwiki_dir}
     unzip #{zip_path}
-    cp -a #{node['lamp']['pmwiki']['real_version']} pmwiki
+    cp -a #{node['lamp']['pmwiki']['real_version']} #{pmwiki}
+    rm -rf #{node['lamp']['pmwiki']['real_version']}
 EOF
-  }
-  user node['apache']['user']
-  action :nothing
-  only_if {
-    ! ::File.exists?("#{pmwiki_dir}/pmwiki") || update
-  }
+    }
+    user node['apache']['user']
+    action :nothing
+    notifies :create_if_missing, "template[#{pmwiki}/local/config.php]", :immediate
+  end
+
+  template "#{pmwiki}/local/config.php" do
+    source 'config.php.erb'
+  end
 end
 
 apache_site site do
