@@ -39,15 +39,15 @@ pmwiki = "#{pmwiki_dir}/pmwiki"
 version = node['lamp']['pmwiki']['version'] 
 zip_path = "/opt/pmwiki/#{version}.zip"
 site = node['lamp']['pmwiki']['site'] || 'default'
-action = node['lamp']['pmwiki']['action']
+act = node['lamp']['pmwiki']['action']
 
-case action 
+case act 
 when 'install', 'upgrade'
 else
-  raise "Unknown action #{action}"
+  raise "Unknown action #{act}"
 end
 
-if action == 'install' && ::File.exists?(pmwiki) then
+if act == 'install' && ::File.exists?(pmwiki) then
   log "PMWiki already installed as #{pmwiki}" do
     level :info
   end
@@ -89,10 +89,10 @@ else
       real_version = %r{^[^/]+}.match(p.stdout)[0]
       node.override['lamp']['pmwiki']['real_version'] = real_version
     end
-    notifies :run, "bash[#{action} pmwiki]", :immediate
+    notifies :run, "bash[#{act} pmwiki]", :immediate
   end
   
-  bash "#{action} pmwiki" do
+  bash "#{act} pmwiki" do
     code lazy { <<-EOF
     cd #{pmwiki_dir}
     unzip #{zip_path}
