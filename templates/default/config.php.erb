@@ -20,7 +20,7 @@ $DefaultPasswords['upload'] =
        "crypt('yOrEaLlyReAlLyNeEdToChAnGeThIsAsWeLl')") %>;
 
 <% if node.default['lamp']['pmwiki']['tz'] then %>
-date_default_timezone_set("<%= node.default['lamp']['pmwiki']['tz']>%");
+date_default_timezone_set("<%= node.default['lamp']['pmwiki']['tz'] %>");
 <% end %>
 
 $TimeFmt = '%B %d, %Y, at %I:%M %p EST';
