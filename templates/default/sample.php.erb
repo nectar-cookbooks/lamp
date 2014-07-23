@@ -100,6 +100,7 @@ $EnableUpload = 1;
 $UploadPermAdd = 0;
 $DefaultPasswords['upload'] = 
   <%= (node.default['lamp']['pmwiki']['upload_password'] ? "'#{node.default['lamp']['pmwiki']['upload_password']}'" : "crypt('yOrEaLlyReAlLyNeEdToChAnGeThIsAsWeLl')") %>;
+<% end %>
 
 ##  Setting $EnableDiag turns on the ?action=diag and ?action=phpinfo
 ##  actions, which often helps others to remotely troubleshoot 
