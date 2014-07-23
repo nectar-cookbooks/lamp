@@ -7,8 +7,14 @@ node.default['lamp']['pmwiki']['wiki_title'] = 'Default Wiki Title'
 node.default['lamp']['pmwiki']['page_logo_url'] = nil
 node.default['lamp']['pmwiki']['script_url'] = nil 
 node.default['lamp']['pmwiki']['pub_dir_url'] = nil
+
+# The password attributes should be set to hashes that are compatible
+# with the PHP 'crypt' function.  If the password attributes are not 
+# set, we use an annoyingly long and hard to type passwords ... to 
+# encourage the you to do the right thing and set the password. 
 node.default['lamp']['pmwiki']['admin_password'] = nil
 node.default['lamp']['pmwiki']['upload_password'] = nil
+
 node.default['lamp']['pmwiki']['enable_upload'] = false
 node.default['lamp']['pmwiki']['upload_perm_add'] = 0
 node.default['lamp']['pmwiki']['enable_diag'] = false
