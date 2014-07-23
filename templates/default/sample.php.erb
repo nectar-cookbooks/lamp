@@ -44,7 +44,7 @@ $PageLogoUrl = "<%= node['lamp']['pmwiki']['page_logo_url'] %>";
 ## See PmWiki.Skins and Cookbook.Skins.
 # $Skin = 'pmwiki';
 <% if node['lamp']['pmwiki']['skin'] then %>
-$Skin = "node['lamp']['pmwiki']['skin']"
+$Skin = "node['lamp']['pmwiki']['skin']";
 <% end %>
 
 ## You'll probably want to set an administrative password that you
@@ -66,19 +66,22 @@ include_once("scripts/xlpage-utf-8.php");
 # $EnableBlocklist = 1;                    # enable manual blocklists
 # $EnableBlocklist = 10;                   # enable automatic blocklists
 <% if node['lamp']['pmwiki']['enable_blocklist'] then %>
-$EnableBlocklist = node['lamp']['pmwiki']['enable_blocklist']
+$EnableBlocklist = node['lamp']['pmwiki']['enable_blocklist'];
 <% end %>
 
 ##  PmWiki comes with graphical user interface buttons for editing;
 ##  to enable these buttons, set $EnableGUIButtons to 1.  
 # $EnableGUIButtons = 1;
 <% if node['lamp']['pmwiki']['enable_gui_buttons'] then %>
-$EnableGUIButtons = 1
+$EnableGUIButtons = 1;
 <% end %>
 
 ##  To enable markup syntax from the Creole common wiki markup language
 ##  (http://www.wikicreole.org/), include it here:
 # include_once("scripts/creole.php");
+<% if node['lamp']['pmwiki']['enable_creole'] then %>
+include_once("scripts/creole.php");
+<% end %>
 
 ##  Some sites may want leading spaces on markup lines to indicate
 ##  "preformatted text blocks", set $EnableWSPre=1 if you want to do
@@ -87,6 +90,10 @@ $EnableGUIButtons = 1
 # $EnableWSPre = 1;   # lines beginning with space are preformatted (default)
 # $EnableWSPre = 4;   # lines with 4 or more spaces are preformatted
 # $EnableWSPre = 0;   # disabled
+<% if node['lamp']['pmwiki']['ws_pre'] then %>
+$EnableWSPre = <%= node['lamp']['pmwiki']['ws_pre'] %>;
+<% end %>
+
 
 ##  If you want uploads enabled on your system, set $EnableUpload=1.
 ##  You'll also need to set a default upload password, or else set
@@ -97,7 +104,7 @@ $EnableGUIButtons = 1
 # $DefaultPasswords['upload'] = crypt('secret');
 <% if node['lamp']['pmwiki']['enable_upload'] then %>
 $EnableUpload = 1;
-$UploadPermAdd = 0;
+$UploadPermAdd = node['lamp']['pmwiki']['upload_perm_add'];
 $DefaultPasswords['upload'] = 
   <%= (node.default['lamp']['pmwiki']['upload_password'] ? "'#{node.default['lamp']['pmwiki']['upload_password']}'" : "crypt('yOrEaLlyReAlLyNeEdToChAnGeThIsAsWeLl')") %>;
 <% end %>
@@ -107,7 +114,7 @@ $DefaultPasswords['upload'] =
 ##  various configuration and execution problems.
 # $EnableDiag = 1;                         # enable remote diagnostics
 <% if node['lamp']['pmwiki']['enable_diag'] then %>
-$EnableDiag = 1
+$EnableDiag = 1;
 <% end %>
 
 ##  By default, PmWiki doesn't allow browsers to cache pages.  Setting
@@ -116,20 +123,29 @@ $EnableDiag = 1
 ##  adjusting configuration files or layout templates.
 # $EnableIMSCaching = 1;                   # allow browser caching
 <% if node['lamp']['pmwiki']['enable_ims_caching'] then %>
-$EnableIMSCaching = 1
+$EnableIMSCaching = 1;
 <% end %>
 
 ##  Set $SpaceWikiWords if you want WikiWords to automatically 
 ##  have spaces before each sequence of capital letters.
 # $SpaceWikiWords = 1;                     # turn on WikiWord spacing
+<% if node['lamp']['pmwiki']['space_wikiwords'] then %>
+$SpaceWikiWords = 1;
+<% end %>
 
 ##  Set $EnableWikiWords if you want to allow WikiWord links.
 ##  For more options with WikiWords, see scripts/wikiwords.php .
 # $EnableWikiWords = 1;                    # enable WikiWord links
+<% if node['lamp']['pmwiki']['enable_wikiwords'] then %>
+$EnableWikiWords = 1;
+<% end %>
 
 ##  $DiffKeepDays specifies the minimum number of days to keep a page's
 ##  revision history.  The default is 3650 (approximately 10 years).
 # $DiffKeepDays=30;                        # keep page history at least 30 days
+<% if node['lamp']['pmwiki']['diff_keep_days'] then %>
+$DiffKeepDays = node['lamp']['pmwiki']['diff_keep_days'];
+<% end %>
 
 ## By default, viewers are prevented from seeing the existence
 ## of read-protected pages in search results and page listings,
@@ -139,6 +155,9 @@ $EnableIMSCaching = 1
 ## viewers may learn of the existence of read-protected pages.
 ## (It does not enable them to access the contents of the pages.)
 # $EnablePageListProtect = 0;
+<% if !node['lamp']['pmwiki']['enable_page_list_protected'] then %>
+$EnablePageListProtect = 0;
+<% end %>
 
 ##  The refcount.php script enables ?action=refcount, which helps to
 ##  find missing and orphaned pages.  See PmWiki.RefCount.
