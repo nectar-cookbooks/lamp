@@ -162,6 +162,9 @@ $EnablePageListProtect = 0;
 ##  The refcount.php script enables ?action=refcount, which helps to
 ##  find missing and orphaned pages.  See PmWiki.RefCount.
 # if ($action == 'refcount') include_once("scripts/refcount.php");
+<% if !node['lamp']['pmwiki']['enable_refcount'] then %>
+if ($action == 'refcount') include_once("scripts/refcount.php");
+<% end %>
 
 ##  The feeds.php script enables ?action=rss, ?action=atom, ?action=rdf,
 ##  and ?action=dc, for generation of syndication feeds in various formats.
@@ -170,10 +173,26 @@ $EnablePageListProtect = 0;
 # if ($action == 'dc')   include_once("scripts/feeds.php");  # Dublin Core
 # if ($action == 'rdf')  include_once("scripts/feeds.php");  # RSS 1.0
 
+<% if !node['lamp']['pmwiki']['enable_rss_feed'] then %>
+if ($action == 'rss')  include_once("scripts/feeds.php");
+<% end %>
+<% if !node['lamp']['pmwiki']['enable_atom_feed'] then %>
+if ($action == 'atom') include_once("scripts/feeds.php");
+<% end %>
+<% if !node['lamp']['pmwiki']['enable_dc_feed'] then %>
+if ($action == 'dc')   include_once("scripts/feeds.php");
+<% end %>
+<% if !node['lamp']['pmwiki']['enable_rdf_feed'] then %>
+if ($action == 'rdf')  include_once("scripts/feeds.php");
+<% end %>
+
 ##  In the 2.2.0-beta series, {$var} page variables were absolute, but now
 ##  relative page variables provide greater flexibility and are recommended.
 ##  (If you're starting a new site, it's best to leave this setting alone.)
 # $EnableRelativePageVars = 1; # 1=relative; 0=absolute
+<% if !node['lamp']['pmwiki']['enable_relative_page_vars'] then %>
+$EnableRelativePageVars = 1;
+<% end %>
 
 ##  By default, pages in the Category group are manually created.
 ##  Uncomment the following line to have blank category pages
@@ -181,6 +200,9 @@ $EnablePageListProtect = 0;
 ##  category page is saved.  (The page is created only if
 ##  the author has edit permissions to the Category group.)
 # $AutoCreate['/^Category\\./'] = array('ctime' => $Now);
+<% if !node['lamp']['pmwiki']['enable_autocreate_categories'] then %>
+$AutoCreate['/^Category\\./'] = array('ctime' => $Now);
+<% end %>
 
 ##  PmWiki allows a great deal of flexibility for creating custom markup.
 ##  To add support for '*bold*' and '~italic~' markup (the single quotes
