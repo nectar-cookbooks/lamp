@@ -40,6 +40,8 @@ version = node['lamp']['pmwiki']['version']
 zip_path = "/opt/pmwiki/#{version}.zip"
 site = node['lamp']['pmwiki']['site'] || 'default'
 act = node['lamp']['pmwiki']['action']
+config = node['lamp']['pmwiki']['config']
+config_cookbook = node['lamp']['pmwiki']['config_cookbook']
 
 case act 
 when 'install', 'upgrade'
@@ -106,7 +108,8 @@ EOF
   end
 
   template "#{pmwiki}/local/config.php" do
-    source 'config.php.erb'
+    cookbook config_cookbook if config_cookbook
+    source "#{config}.php.erb"
   end
 end
 
