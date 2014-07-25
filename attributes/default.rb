@@ -1,3 +1,5 @@
+node.default['lamp']['adodb']['version'] = '519'
+
 node.default['lamp']['pmwiki']['version'] = 'pmwiki-latest' # any version sans the '.zip' suffix
 node.default['lamp']['pmwiki']['action'] = 'install' # or 'upgrade'
 node.default['lamp']['pmwiki']['config'] = 'simple' # or 'sample'
