@@ -17,6 +17,7 @@ node.default['lamp']['pmwiki']['upload_password'] = nil
 
 node.default['lamp']['pmwiki']['enable_upload'] = false
 node.default['lamp']['pmwiki']['upload_perm_add'] = 0
+node.default['lamp']['pmwiki']['enable_path_info'] = false
 node.default['lamp']['pmwiki']['enable_diag'] = false
 node.default['lamp']['pmwiki']['enable_ims_caching'] = false
 node.default['lamp']['pmwiki']['enable_creole'] = false

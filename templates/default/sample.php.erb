@@ -28,8 +28,8 @@ $PubDirUrl = "<%= node['lamp']['pmwiki']['pub_dir_url'] %>";
 ##  want to check http://www.pmwiki.org/wiki/Cookbook/CleanUrls more
 ##  details about this setting and other ways to create nicer-looking urls.
 # $EnablePathInfo = 1;
-<% if node.default['lamp']['pmwiki']['enable_upload'] then %>
-$EnableUpload = 1;
+<% if node.default['lamp']['pmwiki']['enable_path_info'] then %>
+$EnablePathInfo = 1;
 <% end %>
 
 ## $PageLogoUrl is the URL for a logo image -- you can change this
