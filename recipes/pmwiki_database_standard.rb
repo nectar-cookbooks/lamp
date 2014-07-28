@@ -72,7 +72,7 @@ else
     action :create_if_missing
   end
   
-  bash "#{act} pmwiki" do
+  bash "#{act} pmwiki/cookbook/adodb" do
     code lazy { <<-EOF
     cd #{cookbook_dir}
     rm -rf adodb
