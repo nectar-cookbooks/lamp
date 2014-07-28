@@ -64,6 +64,3 @@ remote_file "#{cookbook_dir}/authuserdbase.php" do
   source authuserdbase_url
   action if act == 'install' ? :create_if_missing : :create
 end
-
-
-
