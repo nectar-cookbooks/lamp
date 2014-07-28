@@ -29,7 +29,7 @@
 
 pmwiki_dir = node['apache']['docroot_dir']
 cookbook_dir = "#{pmwiki_dir}/pmwiki/cookbook"
-version = node['lamp']['pmwiki']['authuserdbase_version']
+version = node['lamp']['pmwiki']['authuserdbase']['version']
 act = node['lamp']['pmwiki']['action']
 
 include_recipe "lamp::pmwiki_database_standard"
