@@ -34,7 +34,7 @@ act = node['lamp']['pmwiki']['action']
 
 include_recipe "lamp::pmwiki_database_standard"
 
-authuserdbase_url = 'http://www.pmwiki.org/pmwiki/uploads/Cookbook/AuthUserDbase-#{version}.php'
+authuserdbase_url = "http://www.pmwiki.org/pmwiki/uploads/Cookbook/AuthUserDbase-#{version}.php"
 
 case act 
 when 'install', 'upgrade'
