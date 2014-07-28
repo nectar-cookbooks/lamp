@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: lamp
-# Recipe:: pmwiki_database_standard
+# Recipe:: pmwiki_auth_user_dbase
 #
 # Copyright (c) 2014, The University of Queensland
 # All rights reserved.
@@ -27,19 +27,14 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-## We just install the PHP5 ADOdb code and the "connect" file in the
-## Cookbook directory.  It is up to the config template (or whatever) 
-## to include the connect and set the database configuration params. 
-
 pmwiki_dir = node['apache']['docroot_dir']
 cookbook_dir = "#{pmwiki_dir}/pmwiki/cookbook"
-version = node['lamp']['adodb']['version']
+version = node['lamp']['pmwiki']['authuserdbase_version']
 act = node['lamp']['pmwiki']['action']
-auto = node['lamp']['pmwiki']['config'] == 'auto'
 
-adodb_url = "http://sourceforge.net/projects/adodb/files/adodb-php5-only/adodb-#{version}-for-php5/adodb#{version}.zip"
-connect_url = 'http://www.pmwiki.org/pmwiki/uploads/Cookbook/adodb-connect.php'
-zip_path = "/opt/pmwiki/adodb#{version}.zip"
+include_recipe "lamp::pmwiki_database_standard"
+
+authuserdbase_url = 'http://www.pmwiki.org/pmwiki/uploads/Cookbook/AuthUserDbase-#{version}.php'
 
 case act 
 when 'install', 'upgrade'
@@ -47,8 +42,8 @@ else
   raise "Unknown action #{act}"
 end
 
-if act == 'install' && ::File.exists?("#{cookbook_dir}/adodb") then
-  log "ADOdb already installed" do
+if act == 'install' && ::File.exists?("#{cookbook_dir}/authuserdbase.php") then
+  log "AuthUserDbase already installed" do
     level :info
   end
 else
@@ -60,38 +55,15 @@ else
     end
   end
 
-  package 'unzip' do
-    action :install
-  end
-  
   directory '/opt/pmwiki' do
     recursive true
   end
-  
-  remote_file zip_path do
-    source adodb_url
-    action :create_if_missing
-  end
-  
-  bash "#{act} pmwiki/cookbook/adodb" do
-    code lazy { <<-EOF
-    cd #{cookbook_dir}
-    rm -rf adodb
-    unzip #{zip_path}
-    mv adodb5 adodb
-EOF
-    }
-    user node['apache']['user']
-  end
 end
-
-remote_file "#{cookbook_dir}/adodb-connect.php" do
-  source connect_url
+  
+remote_file "#{cookbook_dir}/authuserdbase.php" do
+  source authuserdbase_url
   action if act == 'install' ? :create_if_missing : :create
 end
 
-if auto then
-  template "#{local_dir}/01-adodb.php" do
-    source "adodb_conf.php.erb"
-  end
-end
+
+

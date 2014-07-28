@@ -1,8 +1,10 @@
-node.default['lamp']['adodb']['version'] = '519'
+node.default['lamp']['pmwiki']['authuserdbase']['version'] = '2.0.1'
+node.default['lamp']['pmwiki']['authuserdbase']['standalone'] = true
+node.default['lamp']['pmwiki']['authuserdbase']['database'] = 'pmwikiUserDb'
 
 node.default['lamp']['pmwiki']['version'] = 'pmwiki-latest' # any version sans the '.zip' suffix
 node.default['lamp']['pmwiki']['action'] = 'install' # or 'upgrade'
-node.default['lamp']['pmwiki']['config'] = 'simple' # or 'sample'
+node.default['lamp']['pmwiki']['config'] = 'simple' # or 'sample' or 'auto'
 node.default['lamp']['pmwiki']['config_cookbook'] = nil
 
 node.default['lamp']['pmwiki']['wiki_title'] = 'Default Wiki Title'
