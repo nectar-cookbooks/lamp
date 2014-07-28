@@ -3,11 +3,13 @@
    password = attrs['password'] || node['lamp']['adodb']['default_password']
    raise "Password required for ADODB database #{name}" unless password
 %>
+
 $Databases['<%= name %>'] = array(
   'driver' => '<%= attrs["driver"] || "mysql" %>',
   'hostname' => '<%= attrs["hostname"] || "localhost" %>',
   'database' => '<%= attrs["database"] || "pmwikiDatabase" %>',
   'username' => '<%= attrs["username"] || "pmwikiUser" %>',
-  'password' => '<%= password %>',
+  'password' => '<%= password %>');
 <% end %>
+
 include_once "$FarmD/cookbook/adodb-connect.php";
