@@ -33,6 +33,7 @@
 
 pmwiki_dir = node['apache']['docroot_dir']
 cookbook_dir = "#{pmwiki_dir}/pmwiki/cookbook"
+local_dir = "#{pmwiki_dir}/pmwiki/local"
 version = node['lamp']['adodb']['version']
 act = node['lamp']['pmwiki']['action']
 auto = node['lamp']['pmwiki']['config'] == 'auto'
