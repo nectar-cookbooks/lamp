@@ -46,7 +46,7 @@ else
   raise "Unknown action #{act}"
 end
 
-if act == 'install' && ::File.exists?(adodb) then
+if act == 'install' && ::File.exists?("#{cookbook_dir}/adodb") then
   log "ADOdb already installed" do
     level :info
   end
