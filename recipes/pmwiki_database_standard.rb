@@ -94,6 +94,6 @@ end
 if auto then
   template "#{local_dir}/10-adodb.php" do
     source "adodb_conf.php.erb"
-    action :creat_if_missing
+    action :create_if_missing
   end
 end
