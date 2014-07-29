@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: lamp
-# Recipe:: pmwiki_auth_user_dbase
+# Recipe:: pmwiki_authuserdbase
 #
 # Copyright (c) 2014, The University of Queensland
 # All rights reserved.
@@ -29,8 +29,10 @@
 
 pmwiki_dir = node['apache']['docroot_dir']
 cookbook_dir = "#{pmwiki_dir}/pmwiki/cookbook"
+local_dir = "#{pmwiki_dir}/pmwiki/local"
 version = node['lamp']['pmwiki']['authuserdbase']['version']
 act = node['lamp']['pmwiki']['action']
+auto = node['lamp']['pmwiki']['config'] == 'auto'
 
 include_recipe "lamp::pmwiki_database_standard"
 
@@ -63,4 +65,11 @@ end
 remote_file "#{cookbook_dir}/authuserdbase.php" do
   source authuserdbase_url
   action if act == 'install' ? :create_if_missing : :create
+end
+
+if auto then
+  template "#{local_dir}/20-authuserdbase.php" do
+    source "authuserdbase_conf.php.erb"
+    action :creat_if_missing
+  end
 end

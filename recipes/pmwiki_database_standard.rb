@@ -92,7 +92,7 @@ remote_file "#{cookbook_dir}/adodb-connect.php" do
 end
 
 if auto then
-  template "#{local_dir}/01-adodb.php" do
+  template "#{local_dir}/10-adodb.php" do
     source "adodb_conf.php.erb"
     action :creat_if_missing
   end
