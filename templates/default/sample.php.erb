@@ -237,3 +237,7 @@ $AutoCreate['/^Category\\./'] = array('ctime' => $Now);
 # $GUIButtons['table'] = array(600,
 #                       '||border=1 width=80%\\n||!Hdr ||!Hdr ||!Hdr ||\\n||     ||     ||     ||\\n||     ||     ||     ||\\n', '', '', 
 #                     '$GUIButtonDirUrlFmt/table.gif"$[Table]"');
+
+<% if node.default['lamp']['pmwiki']['tz'] then %>
+date_default_timezone_set("<%= node.default['lamp']['pmwiki']['tz'] %>");
+<% end %>

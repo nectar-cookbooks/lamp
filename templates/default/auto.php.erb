@@ -237,6 +237,10 @@ $AutoCreate['/^Category\\./'] = array('ctime' => $Now);
 #                       '||border=1 width=80%\\n||!Hdr ||!Hdr ||!Hdr ||\\n||     ||     ||     ||\\n||     ||     ||     ||\\n', '', '', 
 #                     '$GUIButtonDirUrlFmt/table.gif"$[Table]"');
 
+<% if node.default['lamp']['pmwiki']['tz'] then %>
+date_default_timezone_set("<%= node.default['lamp']['pmwiki']['tz'] %>");
+<% end %>
+
 foreach ( scandir($LocalDir) as $filename )
     if ( $filename != 'config.php' && preg_match('/.php$/', $filename) )
         include_once("$LocalDir/$filename");
