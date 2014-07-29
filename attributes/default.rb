@@ -23,7 +23,7 @@ node.default['lamp']['pmwiki']['enable_ims_caching'] = false
 node.default['lamp']['pmwiki']['enable_creole'] = false
 node.default['lamp']['pmwiki']['enable_wikiwords'] = false
 node.default['lamp']['pmwiki']['space_wikiwords'] = false
-node.default['lamp']['pmwiki']['tz'] = nil
+node.default['lamp']['pmwiki']['tz'] = 'UTC'      # This must be set ...
 node.default['lamp']['pmwiki']['blocklist'] = nil # e.g. 1 or 10 -
                                                   # see PmWiki.Blocklist
 node.default['lamp']['pmwiki']['ws_pre'] = 0
