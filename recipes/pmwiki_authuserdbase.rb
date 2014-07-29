@@ -70,6 +70,6 @@ end
 if auto then
   template "#{local_dir}/20-authuserdbase.php" do
     source "authuserdbase_conf.php.erb"
-    action :creat_if_missing
+    action :create_if_missing
   end
 end
