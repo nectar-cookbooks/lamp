@@ -238,5 +238,5 @@ $AutoCreate['/^Category\\./'] = array('ctime' => $Now);
 #                     '$GUIButtonDirUrlFmt/table.gif"$[Table]"');
 
 foreach ( scandir($LocalDir) as $filename )
-    if ( $filename != 'config.php' && eref(".php$", $filename) )
+    if ( $filename != 'config.php' && ereg(".php$", $filename) )
         include_once("$LocalDir/$filename");
