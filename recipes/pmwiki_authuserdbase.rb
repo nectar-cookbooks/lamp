@@ -32,7 +32,7 @@ cookbook_dir = "#{pmwiki_dir}/pmwiki/cookbook"
 local_dir = "#{pmwiki_dir}/pmwiki/local"
 version = node['lamp']['pmwiki']['authuserdbase']['version']
 act = node['lamp']['pmwiki']['action']
-auto = node['lamp']['pmwiki']['config'] == 'auto'
+auto = node['lamp']['pmwiki']['auto_config']
 
 include_recipe "lamp::pmwiki_database_standard"
 

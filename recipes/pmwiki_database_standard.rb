@@ -36,7 +36,7 @@ cookbook_dir = "#{pmwiki_dir}/pmwiki/cookbook"
 local_dir = "#{pmwiki_dir}/pmwiki/local"
 version = node['lamp']['adodb']['version']
 act = node['lamp']['pmwiki']['action']
-auto = node['lamp']['pmwiki']['config'] == 'auto'
+auto = node['lamp']['pmwiki']['auto_config']
 
 adodb_url = "http://sourceforge.net/projects/adodb/files/adodb-php5-only/adodb-#{version}-for-php5/adodb#{version}.zip"
 connect_url = 'http://www.pmwiki.org/pmwiki/uploads/Cookbook/adodb-connect.php'
