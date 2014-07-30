@@ -242,6 +242,10 @@ $AutoCreate['/^Category\\./'] = array('ctime' => $Now);
 date_default_timezone_set("<%= node.default['lamp']['pmwiki']['tz'] %>");
 <% end %>
 
+<% if node.default['lamp']['pmwiki']['enable_post_author_required'] then %>
+$EnablePostAuthorRequired = 1;
+<% end %>
+
 <% if node.default['lamp']['pmwiki']['auto_config'] then %>
 foreach ( scandir($LocalDir) as $filename )
     if ( $filename != 'config.php' && preg_match('/.php$/', $filename) )

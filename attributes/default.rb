@@ -38,3 +38,4 @@ node.default['lamp']['pmwiki']['enable_rdf_feed'] = false  # RSS 1.0
 node.default['lamp']['pmwiki']['enable_relative_page_vars'] = false
 node.default['lamp']['pmwiki']['enable_autocreate_categories'] = false
 node.default['lamp']['pmwiki']['skin'] = nil
+node.default['lamp']['pmwiki']['enable_post_author_required'] = true
