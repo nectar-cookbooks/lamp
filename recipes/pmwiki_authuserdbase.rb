@@ -76,7 +76,6 @@ end
 
 if node['lamp']['pmwiki']['authuserdbase']['standalone'] then
   mysql_service 'default' do
-    template_source 'custom.erb'
     allow_remote_root false
     remove_anonymous_users true
     remove_test_database true
