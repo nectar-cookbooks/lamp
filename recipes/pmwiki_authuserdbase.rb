@@ -73,3 +73,51 @@ if auto then
     action :create_if_missing
   end
 end
+
+if node['lamp']['pmwiki']['authuserdbase']['standalone'] then
+  mysql_service 'default' do
+    template_source 'custom.erb'
+    allow_remote_root false
+    remove_anonymous_users true
+    remove_test_database true
+    server_root_password 'sumthing'
+    action :create
+  end
+
+  root_password = node['lamp']['adodb']['root_password']
+  raise "I need a mysql root password" unless root_password
+  
+  connection_info = {
+    :host => '127.0.0.1',
+    :username => 'root',
+    :password => root_password
+  }
+
+  mysql_database 'pmwiki database' do
+    name 'pmwikiDatabase'
+    connection connection_info
+    action :create
+  end
+
+  mysql_database 'pmwiki userdb schema' do
+    name 'pmwikiDatabase'
+    sql <<END
+        CREATE TABLE `pmwiki_users` (
+          `id` int(11) NOT NULL auto_increment,
+          `username` varchar(30) NOT NULL default '',
+          `password` varchar(60) default NULL,
+          `validatecode` varchar(60) default NULL,
+          `signupdate` date default NULL,
+          `email` varchar(60) default NULL,
+          `validatefield` tinyint(1) default '0',
+          PRIMARY KEY  (`id`),
+          UNIQUE KEY `username` (`username`)
+        ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8
+END
+    connection connection_info
+    action :query
+  end
+  
+
+                
+end

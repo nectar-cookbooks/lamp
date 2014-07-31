@@ -8,4 +8,5 @@ version "0.0.1"
 depends "apache2"
 depends "php"
 depends "mysql"
+depends "database"
 
