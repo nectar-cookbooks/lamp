@@ -34,6 +34,8 @@ version = node['lamp']['pmwiki']['authuserdbase']['version']
 act = node['lamp']['pmwiki']['action']
 auto = node['lamp']['pmwiki']['auto_config']
 
+host = node['lamp']['pmwiki']['authuserdbase']['db_host'] || 'localhost'
+user = node['lamp']['pmwiki']['authuserdbase']['db_user']
 password = node['lamp']['pmwiki']['authuserdbase']['db_password']
 raise "I need the password for the pmwiki db user" unless password
 
@@ -41,8 +43,8 @@ database = node['lamp']['pmwiki']['authuserdbase']['database']
 node.normal['lamp']['adodb']['databases'][database] = {
   'driver' => 'mysql',
   'database' => database,
-  'hostname' => node['lamp']['pmwiki']['authuserdbase']['db_host'],
-  'username' => node['lamp']['pmwiki']['authuserdbase']['db_user'],
+  'hostname' => host,
+  'username' => user,
   'password' => password
 }
 
@@ -99,7 +101,7 @@ if node['lamp']['pmwiki']['authuserdbase']['standalone'] then
   end
 
   connection_info = {
-    :host => '127.0.0.1',
+    :host => host,
     :username => 'root',
     :password => root_password
   }
@@ -109,7 +111,7 @@ if node['lamp']['pmwiki']['authuserdbase']['standalone'] then
     connection connection_info
     action :create
     notifies :query, "mysql_database[userdb_schema]", :immediately
-    notifies :create, "mysql_database_user[pmwiki]", :immediately
+    notifies :create, "mysql_database_user[#{user}]", :immediately
   end
 
   mysql_database 'userdb_schema' do
@@ -131,13 +133,10 @@ END
     action :nothing
   end
 
-  mysql_database_user 'pmwiki' do
+  mysql_database_user user do
     connection connection_info
     database_name database
     password password
     action :nothing
   end
-  
-
-                
 end
