@@ -105,8 +105,8 @@ if node['lamp']['pmwiki']['authuserdbase']['standalone'] then
     name 'pmwikiDatabase'
     connection connection_info
     action :create
-    notify :query, "mysql_database[userdb_schema]", :immediate
-    notify :create, "mysql_database_user[pmwiki]", :immediate
+    notifies :query, "mysql_database[userdb_schema]", :immediately
+    notifies :create, "mysql_database_user[pmwiki]", :immediately
   end
 
   mysql_database 'userdb_schema' do
