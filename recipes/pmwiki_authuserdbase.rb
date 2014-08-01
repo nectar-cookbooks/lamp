@@ -38,7 +38,7 @@ database = node['lamp']['pmwiki']['authuserdbase']['database']
 node.normal['lamp']['adodb']['databases'][database] = {
   'driver' => 'mysql',
   'database' => database,
-  'hostname' => node['lamp']['pmwiki']['authuserdbase']['db_host']
+  'hostname' => node['lamp']['pmwiki']['authuserdbase']['db_host'],
   'username' => node['lamp']['pmwiki']['authuserdbase']['db_user'],
   'password' => node['lamp']['pmwiki']['authuserdbase']['db_password']
 }
