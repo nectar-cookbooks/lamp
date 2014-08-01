@@ -34,13 +34,16 @@ version = node['lamp']['pmwiki']['authuserdbase']['version']
 act = node['lamp']['pmwiki']['action']
 auto = node['lamp']['pmwiki']['auto_config']
 
+password = node['lamp']['pmwiki']['authuserdbase']['db_password']
+raise "I need the password for the pmwiki db user" unless password
+
 database = node['lamp']['pmwiki']['authuserdbase']['database']
 node.normal['lamp']['adodb']['databases'][database] = {
   'driver' => 'mysql',
   'database' => database,
   'hostname' => node['lamp']['pmwiki']['authuserdbase']['db_host'],
   'username' => node['lamp']['pmwiki']['authuserdbase']['db_user'],
-  'password' => node['lamp']['pmwiki']['authuserdbase']['db_password']
+  'password' => password
 }
 
 include_recipe "lamp::pmwiki_database_standard"
@@ -102,7 +105,7 @@ if node['lamp']['pmwiki']['authuserdbase']['standalone'] then
   }
 
   mysql_database 'pmwiki database' do
-    name 'pmwikiDatabase'
+    database_name database
     connection connection_info
     action :create
     notifies :query, "mysql_database[userdb_schema]", :immediately
@@ -110,7 +113,7 @@ if node['lamp']['pmwiki']['authuserdbase']['standalone'] then
   end
 
   mysql_database 'userdb_schema' do
-    name 'pmwikiDatabase'
+    database_name database
     sql <<END
         CREATE TABLE `pmwiki_users` (
           `id` int(11) NOT NULL auto_increment,
@@ -130,6 +133,8 @@ END
 
   mysql_database_user 'pmwiki' do
     connection connection_info
+    database_name database
+    password password
     action :nothing
   end
   
