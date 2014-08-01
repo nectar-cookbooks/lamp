@@ -34,6 +34,15 @@ version = node['lamp']['pmwiki']['authuserdbase']['version']
 act = node['lamp']['pmwiki']['action']
 auto = node['lamp']['pmwiki']['auto_config']
 
+database = node['lamp']['pmwiki']['authuserdbase']['database']
+node.normal['lamp']['adodb']['databases'][database] = {
+  'driver' => 'mysql',
+  'database' => database,
+  'hostname' => node['lamp']['pmwiki']['authuserdbase']['db_host']
+  'username' => node['lamp']['pmwiki']['authuserdbase']['db_user'],
+  'password' => node['lamp']['pmwiki']['authuserdbase']['db_password']
+}
+
 include_recipe "lamp::pmwiki_database_standard"
 
 authuserdbase_url = "http://www.pmwiki.org/pmwiki/uploads/Cookbook/AuthUserDbase-#{version}.php"
@@ -96,9 +105,11 @@ if node['lamp']['pmwiki']['authuserdbase']['standalone'] then
     name 'pmwikiDatabase'
     connection connection_info
     action :create
+    notify :query, "mysql_database[userdb_schema]", :immediate
+    notify :create, "mysql_database_user[pmwiki]", :immediate
   end
 
-  mysql_database 'pmwiki userdb schema' do
+  mysql_database 'userdb_schema' do
     name 'pmwikiDatabase'
     sql <<END
         CREATE TABLE `pmwiki_users` (
@@ -114,7 +125,12 @@ if node['lamp']['pmwiki']['authuserdbase']['standalone'] then
         ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8
 END
     connection connection_info
-    action :query
+    action :nothing
+  end
+
+  mysql_database_user 'pmwiki' do
+    connection connection_info
+    action :nothing
   end
   
 

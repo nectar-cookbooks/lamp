@@ -8,8 +8,8 @@
 $Databases['<%= name %>'] = array(
   'driver' => '<%= attrs["driver"] || "mysql" %>',
   'hostname' => '<%= attrs["hostname"] || "localhost" %>',
-  'database' => '<%= attrs["database"] || "pmwikiDatabase" %>',
-  'username' => '<%= attrs["username"] || "pmwikiUser" %>',
+  'database' => '<%= attrs["database"] || name  %>',
+  'username' => '<%= attrs["username"] || "adodbUser" %>',
   'password' => '<%= password %>');
 <% end %>
 

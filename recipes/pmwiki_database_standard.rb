@@ -92,8 +92,13 @@ remote_file "#{cookbook_dir}/adodb-connect.php" do
 end
 
 if auto then
+  log "10-adodb.php creation scheduled" do
+    level :info
+    notifies :create_if_missing, "template[#{local_dir}/10-adodb.php]", :delayed
+  end
+
   template "#{local_dir}/10-adodb.php" do
     source "adodb_conf.php.erb"
-    action :create_if_missing
+    action :nothing
   end
 end

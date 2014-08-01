@@ -1,9 +1,10 @@
 node.default['lamp']['pmwiki']['authuserdbase']['version'] = '2.0.1'
 node.default['lamp']['pmwiki']['authuserdbase']['standalone'] = true
 node.default['lamp']['pmwiki']['authuserdbase']['database'] = 'pmwikiUserDb'
+node.default['lamp']['pmwiki']['authuserdbase']['db_user'] = 'pmwikiUser'
+node.default['lamp']['pmwiki']['authuserdbase']['db_password'] = nil
+node.default['lamp']['pmwiki']['authuserdbase']['db_host'] = nil
 node.default['lamp']['pmwiki']['authuserdbase']['standalone'] = true
-
-node.default['lamp']['pmwiki']['authuserdbase']['database'] = 'users'
 node.default['lamp']['pmwiki']['authuserdbase']['user_table'] = 'pmwiki_users'
 node.default['lamp']['pmwiki']['authuserdbase']['user_field'] = 'username'
 node.default['lamp']['pmwiki']['authuserdbase']['pw_field'] = 'password'
