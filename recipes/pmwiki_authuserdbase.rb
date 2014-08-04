@@ -33,6 +33,7 @@ local_dir = "#{pmwiki_dir}/pmwiki/local"
 version = node['lamp']['pmwiki']['authuserdbase']['version']
 act = node['lamp']['pmwiki']['action']
 auto = node['lamp']['pmwiki']['auto_config']
+install_test = node['lamp']['pmwiki']['authuserdbase']['install_test'] || false
 
 host = node['lamp']['pmwiki']['authuserdbase']['db_host'] || 'localhost'
 user = node['lamp']['pmwiki']['authuserdbase']['db_user']
@@ -139,4 +140,18 @@ END
     password password
     action :nothing
   end
+end
+
+if install_test then
+  log "Installing 'test.php' for testing authuserdbase integration.  REMEMBER TO DISABLE IT when you are done testing!!" do
+    level :warn
+  end
+  template "#{pmwiki_dir}/pmwiki/test.php" do
+    source 'adodb_test.php.erb'
+    action :create
+  end
+else
+  file "#{pmwiki_dir}/pmwiki/test.php" do
+    action :delete
+  end 
 end

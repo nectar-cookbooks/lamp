@@ -14,3 +14,5 @@ node.default['lamp']['pmwiki']['authuserdbase']['validate_code'] = 'validatecode
 node.default['lamp']['pmwiki']['authuserdbase']['validate_field'] = 'validatefield'
 node.default['lamp']['pmwiki']['authuserdbase']['date_joined'] = 'signupdate'
 node.default['lamp']['pmwiki']['authuserdbase']['lang'] = 'en'
+
+node.default['lamp']['pmwiki']['authuserdbase']['install_test'] = false
