@@ -1,7 +1,7 @@
 <?php
 <% db_params = node['lamp']['pmwiki']['authuserdbase'] %>
 include('<%= "#{node['apache']['docroot_dir']}/pmwiki/cookbook/adodb/adodb.inc.php" %>');
-$DB = NewADOConnection('<%= attrs["driver"] || "mysqli" %>');  
+$DB = NewADOConnection('<%= db_params['driver'] || 'mysqli' %>');  
 if (!$DB) { 
 print("Connection failed");
 exit(0);
