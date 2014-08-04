@@ -143,7 +143,8 @@ END
 end
 
 if install_test then
-  log "Installing 'test.php' for testing authuserdbase integration.  REMEMBER TO DISABLE IT when you are done testing!!" do
+  log "Installing test.php" do
+    message "Installing 'test.php' for testing authuserdbase integration.  REMEMBER TO DISABLE IT when you are done testing!!"
     level :warn
   end
   template "#{pmwiki_dir}/pmwiki/test.php" do
