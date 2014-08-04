@@ -61,6 +61,10 @@ else
     end
   end
 
+  package 'php-ZendFramework-Db-Adapter-Mysqli' do 
+    action :install
+  end
+
   package 'unzip' do
     action :install
   end

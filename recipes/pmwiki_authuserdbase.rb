@@ -42,7 +42,7 @@ raise "I need the password for the pmwiki db user" unless password
 
 database = node['lamp']['pmwiki']['authuserdbase']['database']
 node.normal['lamp']['adodb']['databases'][database] = {
-  'driver' => 'mysql',
+  'driver' => 'mysqli',
   'database' => database,
   'hostname' => host,
   'username' => user,

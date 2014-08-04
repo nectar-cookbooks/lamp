@@ -1,6 +1,7 @@
 <?php
+<% db_params = node['lamp']['pmwiki']['authuserdbase'] %>
 include('<%= "#{node['apache']['docroot_dir']}/pmwiki/cookbook/adodb/adodb.inc.php" %>');
-$DB = NewADOConnection('mysql');  
+$DB = NewADOConnection('<%= attrs["driver"] || "mysqli" %>');  
 if (!$DB) { 
 print("Connection failed");
 exit(0);
@@ -8,7 +9,6 @@ exit(0);
 $DB->debug = true;
 // Set these parameters for your database:
 // ---------------------------------------------------------------------------
-<% db_params = node['lamp']['pmwiki']['authuserdbase'] %>
 $DB->Connect('<%= db_params['db_host'] || 'localhost' %>', 
              '<%= db_params['db_user'] %>', 
              '<%= db_params['db_password'] %>', 

@@ -6,7 +6,7 @@ node.default['lamp']['adodb']['databases'] = {}
 # entries to the attribute on the fly.
 # { 
 #   'myUserDatabase' => {
-#     'driver' => 'mysql',
+#     'driver' => 'mysqli',
 #     'hostname' => 'localhost',
 #     'database' => 'pmwikiDatabase',
 #     'username' => 'pmwikiUser',
