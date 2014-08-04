@@ -12,21 +12,21 @@ $PubDirUrl = "<%= node['lamp']['pmwiki']['pub_dir_url'] %>";
 <% end %>
 
 $DefaultPasswords['admin'] = 
-  <%= (node.default['lamp']['pmwiki']['admin_password'] ? "'#{node.default['lamp']['pmwiki']['admin_password']}'" : "crypt('yOrEaLlyReAlLyNeEdToChAnGeThIs')") %>;
+  <%= (node['lamp']['pmwiki']['admin_password'] ? "'#{node['lamp']['pmwiki']['admin_password']}'" : "crypt('yOrEaLlyReAlLyNeEdToChAnGeThIs')") %>;
 
-$EnableUpload = <%= node.default['lamp']['pmwiki']['enable_upload'] ? 1 : 0 %>;
+$EnableUpload = <%= node['lamp']['pmwiki']['enable_upload'] ? 1 : 0 %>;
 $DefaultPasswords['upload'] = 
-  <%= (node.default['lamp']['pmwiki']['upload_password'] ?	
-       "'#{node.default['lamp']['pmwiki']['upload_password']}'" :
+  <%= (node['lamp']['pmwiki']['upload_password'] ?	
+       "'#{node['lamp']['pmwiki']['upload_password']}'" :
        "crypt('yOrEaLlyReAlLyNeEdToChAnGeThIsAsWeLl')") %>;
 
-<% if node.default['lamp']['pmwiki']['tz'] then %>
-date_default_timezone_set("<%= node.default['lamp']['pmwiki']['tz'] %>");
+<% if node['lamp']['pmwiki']['tz'] then %>
+date_default_timezone_set("<%= node['lamp']['pmwiki']['tz'] %>");
 <% end %>
 
 $TimeFmt = '%B %d, %Y, at %I:%M %p EST';
 
-<% if node.default['lamp']['pmwiki']['auto_config'] then %>
+<% if node['lamp']['pmwiki']['auto_config'] then %>
 foreach ( scandir($LocalDir) as $filename )
     if ( $filename != 'config.php' && preg_match('/.php$/', $filename) )
         include_once("$LocalDir/$filename");

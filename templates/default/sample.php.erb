@@ -28,7 +28,7 @@ $PubDirUrl = "<%= node['lamp']['pmwiki']['pub_dir_url'] %>";
 ##  want to check http://www.pmwiki.org/wiki/Cookbook/CleanUrls more
 ##  details about this setting and other ways to create nicer-looking urls.
 # $EnablePathInfo = 1;
-<% if node.default['lamp']['pmwiki']['enable_path_info'] then %>
+<% if node['lamp']['pmwiki']['enable_path_info'] then %>
 $EnablePathInfo = 1;
 <% end %>
 
@@ -54,7 +54,7 @@ $Skin = "node['lamp']['pmwiki']['skin']";
 ## and PmWiki.PasswordsAdmin.
 # $DefaultPasswords['admin'] = crypt('secret');
 $DefaultPasswords['admin'] = 
-  <%= (node.default['lamp']['pmwiki']['admin_password'] ? "'#{node.default['lamp']['pmwiki']['admin_password']}'" : "crypt('yOrEaLlyReAlLyNeEdToChAnGeThIs')") %>;
+  <%= (node['lamp']['pmwiki']['admin_password'] ? "'#{node['lamp']['pmwiki']['admin_password']}'" : "crypt('yOrEaLlyReAlLyNeEdToChAnGeThIs')") %>;
 
 ## Unicode (UTF-8) allows the display of all languages and all alphabets.
 ## Highly recommended for new wikis.
@@ -106,7 +106,7 @@ $EnableWSPre = <%= node['lamp']['pmwiki']['ws_pre'] %>;
 $EnableUpload = 1;
 $UploadPermAdd = node['lamp']['pmwiki']['upload_perm_add'];
 $DefaultPasswords['upload'] = 
-  <%= (node.default['lamp']['pmwiki']['upload_password'] ? "'#{node.default['lamp']['pmwiki']['upload_password']}'" : "crypt('yOrEaLlyReAlLyNeEdToChAnGeThIsAsWeLl')") %>;
+  <%= (node['lamp']['pmwiki']['upload_password'] ? "'#{node['lamp']['pmwiki']['upload_password']}'" : "crypt('yOrEaLlyReAlLyNeEdToChAnGeThIsAsWeLl')") %>;
 <% end %>
 
 ##  Setting $EnableDiag turns on the ?action=diag and ?action=phpinfo
@@ -238,15 +238,15 @@ $AutoCreate['/^Category\\./'] = array('ctime' => $Now);
 #                       '||border=1 width=80%\\n||!Hdr ||!Hdr ||!Hdr ||\\n||     ||     ||     ||\\n||     ||     ||     ||\\n', '', '', 
 #                     '$GUIButtonDirUrlFmt/table.gif"$[Table]"');
 
-<% if node.default['lamp']['pmwiki']['tz'] then %>
-date_default_timezone_set("<%= node.default['lamp']['pmwiki']['tz'] %>");
+<% if node['lamp']['pmwiki']['tz'] then %>
+date_default_timezone_set("<%= node['lamp']['pmwiki']['tz'] %>");
 <% end %>
 
-<% if node.default['lamp']['pmwiki']['enable_post_author_required'] then %>
+<% if node['lamp']['pmwiki']['enable_post_author_required'] then %>
 $EnablePostAuthorRequired = 1;
 <% end %>
 
-<% if node.default['lamp']['pmwiki']['auto_config'] then %>
+<% if node['lamp']['pmwiki']['auto_config'] then %>
 foreach ( scandir($LocalDir) as $filename )
     if ( $filename != 'config.php' && preg_match('/.php$/', $filename) )
         include_once("$LocalDir/$filename");
