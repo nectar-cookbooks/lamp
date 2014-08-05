@@ -134,6 +134,9 @@ END
     action :nothing
   end
 
+  log "mysql_database_user #{user} do connection #{connection_info} database_name #{database} password #{password}" do
+    level :error
+  end
   mysql_database_user user do
     connection connection_info
     database_name database
