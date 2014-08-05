@@ -113,6 +113,7 @@ if node['lamp']['pmwiki']['authuserdbase']['standalone'] then
     action :create
     notifies :query, "mysql_database[userdb_schema]", :immediately
     notifies :create, "mysql_database_user[#{user}]", :immediately
+    notifies :grant, "mysql_database_user[#{user}]", :immediately
   end
 
   mysql_database 'userdb_schema' do
@@ -134,12 +135,8 @@ END
     action :nothing
   end
 
-  log "mysql_database_user #{user} do connection #{connection_info} database_name #{database} password #{password}" do
-    level :error
-  end
   mysql_database_user user do
     connection connection_info
-    database_name database
     password password
     action :nothing
   end
