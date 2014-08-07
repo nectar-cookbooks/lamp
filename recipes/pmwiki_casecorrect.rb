@@ -70,7 +70,7 @@ if auto then
     action :create_if_missing
   end
 
-  ruby_block do
+  ruby_block "adding (:case-correction:) to Site.PageNotFound" do
     block do
       page_path = "#{pmwiki_dir}/pmwiki/wiki.d/Site.PageNotFound"
       page_file = ::File.open(page_path)
