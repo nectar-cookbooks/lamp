@@ -39,3 +39,7 @@ node.default['lamp']['pmwiki']['enable_relative_page_vars'] = false
 node.default['lamp']['pmwiki']['enable_autocreate_categories'] = false
 node.default['lamp']['pmwiki']['skin'] = nil
 node.default['lamp']['pmwiki']['enable_post_author_required'] = true
+
+# Supported alternatives are 'swf.php', 'flash.php' and 'flash2.php'; see
+# http://www.pmwiki.org/wiki/Cookbook/Flash for defails.
+node.default['lamp']['pmwiki']['flash_script'] = 'swf.php'
