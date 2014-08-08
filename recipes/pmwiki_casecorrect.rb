@@ -54,35 +54,31 @@ else
     end
   end
 
-  directory '/opt/pmwiki' do
-    recursive true
+  remote_file "#{cookbook_dir}/casecorrect.php" do
+    source casecorrect_url
+    action if act == 'install' ? :create_if_missing : :create
   end
-end
   
-remote_file "#{cookbook_dir}/casecorrect.php" do
-  source casecorrect_url
-  action if act == 'install' ? :create_if_missing : :create
-end
-
-if auto then
-  template "#{local_dir}/21-casecorrect.php" do
-    source "casecorrect_conf.php.erb"
-    action :create_if_missing
-  end
-
-  ruby_block "adding (:case-correction:) to Site.PageNotFound" do
-    block do
-      page_path = "#{pmwiki_dir}/pmwiki/wiki.d/Site.PageNotFound"
-      unless ::File.exists?(page_path) then
-        page_path = "#{pmwiki_dir}/pmwiki/wikilib.d/Site.PageNotFound"
-      end
-      page_file = ::File.open(page_path)
-      page = page_file.read
-      page_file.close
-      unless /^text=.*\(:case-correction:\)/.match(page) then
-        edit = Chef::Util::FileEdit.new(page_path)
-        edit.search_file_replace(/^(text=)/, '\1(:case-correction:)%0a')
-        edit.write_file
+  if auto then
+    template "#{local_dir}/21-casecorrect.php" do
+      source "casecorrect_conf.php.erb"
+      action :create_if_missing
+    end
+    
+    ruby_block "adding (:case-correction:) to Site.PageNotFound" do
+      block do
+        page_path = "#{pmwiki_dir}/pmwiki/wiki.d/Site.PageNotFound"
+        unless ::File.exists?(page_path) then
+          page_path = "#{pmwiki_dir}/pmwiki/wikilib.d/Site.PageNotFound"
+        end
+        page_file = ::File.open(page_path)
+        page = page_file.read
+        page_file.close
+        unless /^text=.*\(:case-correction:\)/.match(page) then
+          edit = Chef::Util::FileEdit.new(page_path)
+          edit.search_file_replace(/^(text=)/, '\1(:case-correction:)%0a')
+          edit.write_file
+        end
       end
     end
   end
