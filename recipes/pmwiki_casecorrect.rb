@@ -73,6 +73,9 @@ if auto then
   ruby_block "adding (:case-correction:) to Site.PageNotFound" do
     block do
       page_path = "#{pmwiki_dir}/pmwiki/wiki.d/Site.PageNotFound"
+      unless ::File.exists?(page_path) then
+        page_path = "#{pmwiki_dir}/pmwiki/wikilib.d/Site.PageNotFound"
+      end
       page_file = ::File.open(page_path)
       page = page_file.read
       page_file.close
