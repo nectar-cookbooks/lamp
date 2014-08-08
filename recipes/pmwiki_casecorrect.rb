@@ -81,7 +81,7 @@ if auto then
       page_file.close
       unless /^text=.*\(:case-correction:\)/.match(page) then
         edit = Chef::Util::FileEdit.new(page_path)
-        edit.search_file_replace(/^(text=)/, '\1(:case-correction:)')
+        edit.search_file_replace(/^(text=)/, '\1(:case-correction:)%0a')
         edit.write_file
       end
     end
