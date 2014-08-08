@@ -55,7 +55,7 @@ else
   end
   
   remote_file "#{cookbook_dir}/convert-html.php" do
-    source casecorrect_url
+    source converthtml_url
     action if act == 'install' ? :create_if_missing : :create
   end
   
