@@ -68,13 +68,13 @@ else
   remote_file "#{cookbook_dir}/#{script}" do
     source flash_url
     action if act == 'install' ? :create_if_missing : :create
-    variables ({ :Flash_Script => script,
-                 :Flash_Description => description })
   end
   
   if auto then
     template "#{local_dir}/24-flash.php" do
       source "flash_conf.php.erb"
+      variables ({ :Flash_Script => script,
+                   :Flash_Description => description })
       action :create_if_missing
     end
   end
