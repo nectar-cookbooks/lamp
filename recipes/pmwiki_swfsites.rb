@@ -35,7 +35,7 @@ auto = node['lamp']['pmwiki']['auto_config']
 script = 'swf-sites.php'
 
 
-flash_url = "http://www.pmwiki.org/pmwiki/uploads/Cookbook/#{script}"
+script_url = "http://www.pmwiki.org/pmwiki/uploads/Cookbook/#{script}"
 
 case act 
 when 'install', 'upgrade'
@@ -57,7 +57,7 @@ else
   end
 
   remote_file "#{cookbook_dir}/#{script}" do
-    source flash_url
+    source script_url
     action if act == 'install' ? :create_if_missing : :create
   end
   
