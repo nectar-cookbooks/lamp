@@ -78,7 +78,6 @@ EOF
     }
     user node['apache']['user']
   end
-end
 
   if auto then
     template "#{local_dir}/25-sourceblock.php" do
