@@ -35,7 +35,7 @@ act = node['lamp']['pmwiki']['action']
 auto = node['lamp']['pmwiki']['auto_config']
 install_test = node['lamp']['pmwiki']['authuserdbase']['install_test'] || false
 
-host = node['lamp']['pmwiki']['authuserdbase']['db_host'] || 'localhost'
+host = node['lamp']['database']['host'] || 'localhost'
 user = node['lamp']['pmwiki']['authuserdbase']['db_user']
 password = node['lamp']['pmwiki']['authuserdbase']['db_password']
 raise "I need the password for the pmwiki db user" unless password
@@ -86,16 +86,7 @@ if auto then
 end
 
 if node['lamp']['pmwiki']['authuserdbase']['standalone'] then
-  root_password = node['lamp']['adodb']['root_password']
-  raise "I need a mysql root password" unless root_password
-  
-  mysql_service 'default' do
-    allow_remote_root false
-    remove_anonymous_users true
-    remove_test_database true
-    server_root_password root_password
-    action :create
-  end
+  include_recipe 'lamp::database'
 
   connection_info = {
     :host => host,

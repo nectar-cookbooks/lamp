@@ -13,4 +13,6 @@ node.default['lamp']['adodb']['databases'] = {}
 #     'password' => nil
 #   }
 # }                                           
-node.default['lamp']['adodb']['root_password'] = nil
+
+node.default['lamp']['database']['root_password'] = nil
+node.default['lamp']['database']['host'] = 'localhost'
