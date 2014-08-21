@@ -37,7 +37,7 @@ pmwiki_dir = node['apache']['docroot_dir']
 pmwiki = "#{pmwiki_dir}/pmwiki"
 
 version = node['lamp']['pmwiki']['version'] 
-zip_path = "/opt/pmwiki/#{version}.zip"
+zip_path = "#{Chef::Config['file_cache_path']}/#{version}.zip"
 site = node['lamp']['pmwiki']['site'] || 'default'
 act = node['lamp']['pmwiki']['action']
 config = node['lamp']['pmwiki']['config']
@@ -56,10 +56,6 @@ if act == 'install' && ::File.exists?(pmwiki) then
 else
   package 'unzip' do
     action :install
-  end
-  
-  directory '/opt/pmwiki' do
-    recursive true
   end
   
   # For some reason 'remote_file' gives a redirection loop
@@ -84,8 +80,6 @@ else
   ruby_block 'extract pmwiki version' do
     block do
       Chef::Resource::RubyBlock.send(:include, Chef::Mixin::ShellOut)
-      version = node['lamp']['pmwiki']['version'] 
-      zip_path = "/opt/pmwiki/#{version}.zip"
       raise "Can't find the ZIP file" unless ::File.exists?(zip_path)
       p = shell_out!("unzip -Z -1 #{zip_path} | head -n 1")
       real_version = %r{^[^/]+}.match(p.stdout)[0]

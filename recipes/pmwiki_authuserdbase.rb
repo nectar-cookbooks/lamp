@@ -71,10 +71,6 @@ else
       end
     end
   end
-
-  directory '/opt/pmwiki' do
-    recursive true
-  end
 end
   
 remote_file "#{cookbook_dir}/authuserdbase.php" do

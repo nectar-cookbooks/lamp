@@ -40,7 +40,7 @@ auto = node['lamp']['pmwiki']['auto_config']
 
 adodb_url = "http://sourceforge.net/projects/adodb/files/adodb-php5-only/adodb-#{version}-for-php5/adodb#{version}.zip"
 connect_url = 'http://www.pmwiki.org/pmwiki/uploads/Cookbook/adodb-connect.php'
-zip_path = "/opt/pmwiki/adodb#{version}.zip"
+zip_path = "#{Chef::Config['file_cache_path']}/adodb#{version}.zip"
 
 case act 
 when 'install', 'upgrade'
@@ -67,10 +67,6 @@ else
 
   package 'unzip' do
     action :install
-  end
-  
-  directory '/opt/pmwiki' do
-    recursive true
   end
   
   remote_file zip_path do
