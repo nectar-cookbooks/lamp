@@ -43,3 +43,5 @@ node.default['lamp']['pmwiki']['enable_post_author_required'] = true
 # Supported alternatives are 'swf.php', 'flash.php' and 'flash2.php'; see
 # http://www.pmwiki.org/wiki/Cookbook/Flash for defails.
 node.default['lamp']['pmwiki']['flash_script'] = 'swf.php'
+
+node.default['lamp']['geshi']['version'] = '1.0.8.11'
