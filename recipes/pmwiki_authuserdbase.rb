@@ -36,6 +36,8 @@ auto = node['lamp']['pmwiki']['auto_config']
 install_test = node['lamp']['pmwiki']['authuserdbase']['install_test'] || false
 
 host = node['lamp']['database']['host'] || 'localhost'
+root_password = node['lamp']['database']['root_password'] 
+raise "I need the database root password" unless root_password
 user = node['lamp']['pmwiki']['authuserdbase']['db_user']
 password = node['lamp']['pmwiki']['authuserdbase']['db_password']
 raise "I need the password for the pmwiki db user" unless password
