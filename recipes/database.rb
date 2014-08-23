@@ -31,6 +31,13 @@ host = node['lamp']['database']['host'] || 'localhost'
 root_password = node['lamp']['database']['root_password']
 raise "I need a database root password" unless root_password
 
+include_recipe 'mysql::client'
+
+# This is a workaround for a ChefDK 
+# (https://github.com/opscode-cookbooks/database/issues/76)
+package 'libmysqlclient-dev'
+chef_gem 'mysql'
+
 mysql_service 'default' do
   allow_remote_root false
   remove_anonymous_users true
