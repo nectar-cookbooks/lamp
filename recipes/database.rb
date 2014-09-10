@@ -35,8 +35,6 @@ include_recipe 'mysql::client'
 
 # This is a workaround for a ChefDK 
 # (https://github.com/opscode-cookbooks/database/issues/76)
-package 'build-essential'
-package 'libmysqlclient-dev'
 chef_gem 'mysql'
 
 if platform_family?('rhel', 'fedora') then
