@@ -51,6 +51,6 @@ mysql_service 'default' do
   remove_test_database true
   server_root_password root_password
   action :create
-  notifies :enable, "service[#{mysqld}]", :deferred
+  notifies :enable, "service[#{mysqld}]", :delayed
 end
 
