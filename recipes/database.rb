@@ -39,11 +39,18 @@ package 'build-essential'
 package 'libmysqlclient-dev'
 chef_gem 'mysql'
 
+if platform_family?('rhel', 'fedora') then
+  mysqld = 'mysqld'
+else
+  mysqld = 'mysql'
+end
+
 mysql_service 'default' do
   allow_remote_root false
   remove_anonymous_users true
   remove_test_database true
   server_root_password root_password
   action :create
+  notifies :enable, "service[#{mysqld}]", :deferred
 end
 
