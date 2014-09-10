@@ -52,8 +52,10 @@ mysql_service 'default' do
   server_root_password root_password
   action :create
   notifies :enable, "service[#{mysqld}]", :delayed
+  notifies :restart, "service[#{mysqld}]", :immediately
 end
 
 service mysqld do
+  supports :restart => true
   action :nothing
 end
